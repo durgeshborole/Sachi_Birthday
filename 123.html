@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Happy Birthday Dhanashree 🎂</title>
+
+    <!-- GSAP for smooth animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <style>
+        :root {
+            --bg1: #fff4f8;
+            --bg2: #ffeef6;
+            --accent: #ff7aa2;
+            --deep: #9b2b57;
+            --soft: #ffd6e0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Inter, "Poppins", system-ui, sans-serif
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 10% 10%, #fff6fb 0%, var(--bg1) 25%, var(--bg2) 100%);
+            overflow: hidden;
+            color: var(--deep);
+        }
+
+
+        /* stage wrapper */
+        .stage {
+            width: min(980px, 94vw);
+            max-width: 980px;
+            min-height: 640px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(255, 249, 251, 0.85));
+            border-radius: 18px;
+            box-shadow: 0 20px 50px rgba(150, 50, 90, 0.12);
+            position: relative;
+            padding: 32px;
+            overflow: hidden;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+
+        .meta {
+            text-align: left;
+        }
+
+        .meta h3 {
+            font-family: "Great Vibes", cursive;
+            font-size: 28px;
+            margin-bottom: 6px;
+            color: var(--accent)
+        }
+
+        .meta p {
+            font-size: 0.95rem;
+            color: #7a334f
+        }
+
+        /* envelope center */
+        .center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            min-height: 60vh;
+            /* ensures envelope stays vertically centered */
+        }
+
+        .envelope-wrap {
+            width: 280px;
+            height: 180px;
+            perspective: 1000px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .envelope {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            position: relative;
+            background: linear-gradient(180deg, #ffd7e6, #ffc7de);
+            border: 2px solid rgba(155, 43, 87, 0.14);
+            box-shadow: 0 10px 30px rgba(155, 43, 87, 0.08);
+            overflow: visible;
+        }
+
+        .flap {
+            position: absolute;
+            left: 0;
+            top: -2px;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(180deg, #ff9fbd, #ff7aa2);
+            transform-origin: top center;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            border-bottom: 1px solid rgba(155, 43, 87, 0.06);
+            box-shadow: 0 12px 24px rgba(155, 43, 87, 0.06);
+        }
+
+        .letter {
+            position: absolute;
+            left: 50%;
+            top: calc(50% - 10px);
+            transform: translate(-50%, 0);
+            width: 84%;
+            height: 76%;
+            background: white;
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+            opacity: 0;
+            transform-origin: center;
+            text-align: center;
+        }
+
+        .letter h4 {
+            color: var(--accent);
+            font-family: "Great Vibes", cursive;
+            font-size: 22px;
+            margin-bottom: 6px
+        }
+
+        .letter p {
+            font-size: 0.95rem;
+            color: #7b364f;
+            line-height: 1.4
+        }
+
+        .click-hint {
+            margin-top: 14px;
+            color: #9a2f57;
+            font-weight: 600;
+            letter-spacing: 0.2px
+        }
+
+        /* message + gallery */
+        .content {
+            margin-top: 26px;
+            opacity: 0;
+            transform: translateY(10px);
+            text-align: center;
+        }
+
+        .title {
+            font-family: "Great Vibes", cursive;
+            font-size: 36px;
+            color: var(--deep);
+            text-shadow: 0 0 18px rgba(255, 122, 162, 0.18);
+            margin-bottom: 6px;
+        }
+
+        .subtext {
+            color: #8b3b5a;
+            margin-bottom: 16px;
+            font-size: 1rem
+        }
+
+        .poem {
+            max-width: 820px;
+            margin: 0 auto 20px;
+            color: #6c2a4a;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 250, 250, 0.5));
+            padding: 18px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(150, 50, 90, 0.04);
+        }
+
+        .gallery {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .gallery .photo {
+            width: 140px;
+            height: 140px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fde9ef;
+            box-shadow: 0 8px 24px rgba(150, 50, 90, 0.06);
+            border: 1px solid rgba(155, 43, 87, 0.06);
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block
+        }
+
+        /* balloons */
+        .balloon {
+            position: absolute;
+            bottom: -180px;
+            width: 72px;
+            height: 94px;
+            border-radius: 50%;
+            filter: drop-shadow(0 8px 18px rgba(150, 50, 90, 0.08));
+            transform-origin: center;
+            opacity: 0;
+        }
+
+        /* heart particles */
+        .heart {
+            position: fixed;
+            top: -40px;
+            width: 10px;
+            height: 10px;
+            transform: rotate(45deg);
+            opacity: 0.95;
+            background: linear-gradient(180deg, #fff 0%, #ff9fbf 100%);
+            border-radius: 2px;
+            box-shadow: 0 6px 14px rgba(155, 43, 87, 0.06);
+        }
+
+        .heart::after,
+        .heart::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -50%;
+            left: 0
+        }
+
+        .heart::after {
+            left: 50%;
+            top: 0
+        }
+
+        /* controls */
+        .controls {
+            position: absolute;
+            right: 18px;
+            top: 18px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid rgba(155, 43, 87, 0.12);
+            color: var(--deep);
+            padding: 8px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn.primary {
+            background: linear-gradient(90deg, #ff8aa9, #ff72a0);
+            color: white;
+            border: none;
+            box-shadow: 0 6px 18px rgba(255, 122, 162, 0.12)
+        }
+
+        /* replay area */
+        .replay-wrap {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 18px
+        }
+
+        .note {
+            font-size: 0.88rem;
+            color: #8b3b5a
+        }
+
+        /* responsive */
+        @media (max-width:640px) {
+            .envelope-wrap {
+                width: 220px;
+                height: 150px
+            }
+
+            .title {
+                font-size: 28px
+            }
+
+            .gallery .photo {
+                width: 110px;
+                height: 110px
+            }
+        }
+
+        .container {
+            text-align: center;
+            /* Centers inner text (like click text) */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="stage" id="stage">
+        <div class="controls">
+            <button class="btn" id="muteBtn">🔈 Mute</button>
+            <button class="btn" id="downloadBtn" title="Download as single file">💾 Save</button>
+        </div>
+
+        <header>
+            <div class="meta">
+                <h3>Happy Birthday</h3>
+                <p id="metaText"></p>
+            </div>
+        </header>
+
+        <main class="center">
+            <div class="envelope-wrap" id="envelopeWrap" aria-label="Envelope. Click to open.">
+                <div class="envelope" id="envelope">
+                    <div class="flap" id="flap"></div>
+                    <div class="letter" id="letter">
+                        <h4>Just Wait 💌</h4>
+                        <p>You have a surpize</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="click-hint" id="clickHint">Click the envelope to open ✨</div>
+
+            <!-- revealed content -->
+            <section class="content" id="content">
+                <div class="title" id="titleText">🎉 Happy Birthday</div>
+                <div class="subtext" id="dateText">13 November 2025</div>
+
+                <div class="poem" id="poem">
+                    <!-- poem inserted dynamically -->
+                </div>
+
+                <div class="gallery" id="gallery">
+                    <!-- placeholder photos -->
+                    <div class="photo"><img src="./A79A7789.JPG" alt="photo1"></div>
+                    <div class="photo"><img src="./A79A7233.JPG" alt="photo2"></div>
+                    <div class="photo"><img src="./IMG_1243.JPG" alt="photo3"></div>
+                </div>
+
+                <div class="replay-wrap">
+                    <button class="btn primary" id="replayBtn">🔁 Replay Surprise</button>
+                    <div class="note">Add your photos in the <code>images/</code> folder to replace placeholders</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- background music (soft instrumental) -->
+    <audio id="bgm" loop preload="auto">
+        <!-- soft instrumental royalty-free sample from pixabay (replace with your file if you prefer) -->
+        <source
+            src="./Happy Birthday (Piano Version).mp3"
+            type="audio/mpeg">
+    </audio>
+
+    <script>
+        /* ---------------------------
+           DYNAMIC SETTINGS (edit here)
+           --------------------------- */
+        const DYNAMIC = {
+            name: "Dhanashree",
+            date: "13 November 2025",
+            poem: `May your smile outshine the morning sun,<br>
+         Your laughter echo till the day is done.<br>
+         You color our world with joy so true,<br>
+         The brightest bloom — that’s you! 🌸<br><br>
+         Wishing you warmth, adventure, and dreams come true —<br>
+         Today we celebrate the wonderful you! 💖`,
+            balloonsCount: 14,
+            heartsCount: 40
+        };
+        /* ---------------------------
+           END DYNAMIC SETTINGS
+           --------------------------- */
+
+        const envelopeWrap = document.getElementById('envelopeWrap');
+        const envelope = document.getElementById('envelope');
+        const flap = document.getElementById('flap');
+        const letter = document.getElementById('letter');
+        const clickHint = document.getElementById('clickHint');
+        const content = document.getElementById('content');
+        const titleText = document.getElementById('titleText');
+        const dateText = document.getElementById('dateText');
+        const poem = document.getElementById('poem');
+        const bgm = document.getElementById('bgm');
+        const muteBtn = document.getElementById('muteBtn');
+        const replayBtn = document.getElementById('replayBtn');
+        const metaText = document.getElementById('metaText');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        // inject dynamic text
+        titleText.innerHTML = `🎉 Happy Birthday ${DYNAMIC.name} 🎂`;
+        dateText.textContent = DYNAMIC.date;
+        poem.innerHTML = DYNAMIC.poem;
+        metaText.textContent = `Open the envelope to wish ${DYNAMIC.name}`;
+
+        // small helper: random
+        const rnd = (min, max) => Math.random() * (max - min) + min;
+
+        // GSAP timeline for envelope open/letter slide
+        function openEnvelopeSequence() {
+            // disable pointer while animating
+            envelopeWrap.style.pointerEvents = 'none';
+            // flap rotate (3D)
+            gsap.to(flap, { duration: 0.9, rotateX: -180, transformOrigin: "50% 0%", ease: "power2.inOut" });
+            // letter pop out
+            // Letter pops out with soft 3D tilt
+            gsap.to(letter, {
+                duration: 1.0,
+                y: -140,
+                opacity: 1,
+                delay: 0.45,
+                rotationX: 25,        // small forward tilt
+                transformOrigin: "center bottom",
+                ease: "back.out(1.4)"
+            });
+
+            // Then settle flat smoothly
+            gsap.to(letter, {
+                duration: 0.8,
+                rotationX: 0,
+                delay: 1.5,
+                ease: "power2.out"
+            });
+
+
+            // small shake for dramatic effect
+            gsap.fromTo(envelope, { y: -2 }, { y: 0, duration: 0.5, delay: 1.2, repeat: 0, yoyo: true });
+            // after envelope animation: reveal main content, start balloons & hearts & music
+            gsap.to({}, { duration: 1.6, onComplete: revealContent });
+        }
+
+        function revealContent() {
+            // hide envelope area elegantly
+            gsap.to(envelopeWrap, { duration: 0.6, scale: 0.96, opacity: 0, pointerEvents: 'none', onComplete: () => envelopeWrap.style.display = 'none' });
+
+            // show and animate content
+            content.style.display = 'block';
+            gsap.fromTo(content, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 1.1, ease: 'power2.out' });
+
+            // balloons
+            spawnBalloons(DYNAMIC.balloonsCount);
+            // hearts (soft confetti alternative)
+            spawnHearts(DYNAMIC.heartsCount);
+
+            // play music (user already interacted so browsers should allow)
+            playMusic();
+        }
+
+        function playMusic() {
+            bgm.volume = 0.75;
+            let playPromise = bgm.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {/* autoplay might be blocked on some browsers; user can press play */ });
+            }
+        }
+
+        // spawn balloons floating up
+        function spawnBalloons(count = 12) {
+            for (let i = 0; i < count; i++) {
+                const b = document.createElement('div');
+                b.className = 'balloon';
+                const size = rnd(56, 92);
+                b.style.width = size + 'px';
+                b.style.height = (size * 1.25) + 'px';
+                b.style.left = rnd(-5, 105) + 'vw';
+                b.style.background = randomGradientColor();
+                b.style.borderRadius = '50% / 60%';
+                b.style.opacity = 0;
+                document.body.appendChild(b);
+
+                // animation timeline for balloon
+                gsap.timeline()
+                    .to(b, { duration: 0.01, opacity: 1 })
+                    .to(b, { duration: rnd(5.5, 8.5), y: `-=${(window.innerHeight + 300)}`, x: `+=${rnd(-200, 200)}`, ease: 'power1.out', delay: rnd(0, 1) })
+                    .to(b, { duration: 0.6, scale: 1.06, y: `-=${60}`, repeat: 0, yoyo: true, ease: 'sine.inOut' }, '-=1')
+                    .call(() => b.remove(), null, '+=0.2');
+            }
+        }
+
+        // spawn small hearts falling gently (like soft confetti)
+        function spawnHearts(count = 30) {
+            for (let i = 0; i < count; i++) {
+                const h = document.createElement('div');
+                h.className = 'heart';
+                const size = rnd(8, 18);
+                h.style.width = size + 'px';
+                h.style.height = size + 'px';
+                h.style.left = rnd(-5, 105) + 'vw';
+                h.style.top = rnd(-40, -10) + 'px';
+                h.style.opacity = (rnd(7, 10) / 10).toFixed(2);
+                h.style.background = randomHeartColor();
+                document.body.appendChild(h);
+
+                gsap.to(h, { duration: rnd(3.6, 6.5), y: window.innerHeight + 120, rotation: rnd(90, 720), ease: 'power0.none', delay: rnd(0, 1.5), onComplete: () => h.remove() });
+            }
+        }
+
+        function randomGradientColor() {
+            const palettes = [
+                ['#ff9fbf', '#ff6fa5'],
+                ['#ffd27b', '#ff9f7b'],
+                ['#a0f0c4', '#6fd6a1'],
+                ['#b6c7ff', '#7aa7ff'],
+                ['#ffd6f0', '#ff9fcf']
+            ];
+            const p = palettes[Math.floor(Math.random() * palettes.length)];
+            return `linear-gradient(180deg, ${p[0]}, ${p[1]})`;
+        }
+        function randomHeartColor() {
+            const cs = ['#ffb3c7', '#ff9fbf', '#ffd6e0', '#ff8fb3', '#ffb7d2'];
+            return cs[Math.floor(Math.random() * cs.length)];
+        }
+
+        // click to open
+        envelopeWrap.addEventListener('click', () => { openEnvelopeSequence(); clickHint.style.opacity = 0 });
+
+        // replay button (resets everything)
+        replayBtn.addEventListener('click', () => {
+            // clear existing balloons & hearts
+            document.querySelectorAll('.balloon').forEach(n => n.remove());
+            document.querySelectorAll('.heart').forEach(n => n.remove());
+            // reset DOM
+            content.style.display = 'none';
+            envelopeWrap.style.display = 'block';
+            envelopeWrap.style.pointerEvents = 'auto';
+            envelopeWrap.style.opacity = 1;
+            // reset flap/letter using gsap
+            gsap.set(flap, { clearProps: 'all', rotateX: 0 });
+            gsap.set(letter, { clearProps: 'all', y: 0, opacity: 0 });
+            // stop music
+            bgm.pause();
+            bgm.currentTime = 0;
+            clickHint.style.opacity = 1;
+        });
+
+        // mute/unmute
+        let muted = false;
+        muteBtn.addEventListener('click', () => {
+            muted = !muted;
+            bgm.muted = muted;
+            muteBtn.textContent = muted ? '🔇 Muted' : '🔈 Mute';
+        });
+
+        // Save single-file: create downloadable HTML by injecting current DOM (simple client-side)
+        downloadBtn.addEventListener('click', () => {
+            const docHtml = `<!doctype html>\n` + document.documentElement.outerHTML;
+            const blob = new Blob([docHtml], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `happy-birthday-${DYNAMIC.name.replace(/\s+/g, '-').toLowerCase()}.html`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        });
+
+        // try to autoplay music on user gesture (already interacting)
+        envelopeWrap.addEventListener('click', () => playMusic());
+
+        /* Accessibility: keyboard open (Enter/Space) */
+        envelopeWrap.setAttribute('tabindex', '0');
+        envelopeWrap.addEventListener('keydown', (e) => {
+            if (e.key === "Enter" || e.key === " ") openEnvelopeSequence();
+        });
+    </script>
+</body>
+
+</html>

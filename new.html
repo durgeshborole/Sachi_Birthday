@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Birthday Surprise</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+<style>
+
+body{
+margin:0;
+font-family:Poppins,sans-serif;
+background:linear-gradient(135deg,#fff1f7,#ffe6f1);
+overflow:hidden;
+}
+
+/* PAGE SYSTEM */
+
+.page{
+position:absolute;
+inset:0;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+opacity:0;
+pointer-events:none;
+}
+
+.page.active{
+opacity:1;
+pointer-events:auto;
+}
+
+/* BACKGROUND GLOW */
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:radial-gradient(circle,#ffffff40,#0000);
+animation:bgGlow 8s infinite alternate;
+}
+
+@keyframes bgGlow{
+0%{opacity:.2}
+100%{opacity:.5}
+}
+
+/* ENVELOPE */
+
+.envelope-wrap{
+width:260px;
+height:170px;
+position:relative;
+}
+
+.envelope{
+background:#ffd6e6;
+height:100%;
+border-radius:10px;
+}
+
+.flap{
+position:absolute;
+width:100%;
+height:90px;
+background:#ff7aa2;
+clip-path:polygon(0 0,100% 0,50% 100%);
+transform-origin:top;
+}
+
+.letter{
+position:absolute;
+top:30px;
+left:20px;
+right:20px;
+background:white;
+border-radius:10px;
+padding:15px;
+opacity:0;
+}
+
+/* PHOTO GALLERY */
+
+.gallery{
+display:flex;
+gap:15px;
+}
+
+.gallery img{
+width:180px;
+height:180px;
+object-fit:cover;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,.25);
+}
+
+/* SCRATCH */
+
+.scratch-card{
+position:relative;
+width:300px;
+height:300px;
+}
+
+.scratch-card img{
+width:100%;
+height:100%;
+border-radius:12px;
+}
+
+canvas{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+}
+
+/* VIDEO */
+
+video{
+width:320px;
+margin:10px;
+border-radius:10px;
+}
+
+/* HEART RAIN */
+
+.heart{
+position:absolute;
+font-size:22px;
+}
+
+/* PARTICLES */
+
+.particle{
+position:absolute;
+width:6px;
+height:6px;
+background:white;
+border-radius:50%;
+box-shadow:0 0 10px white;
+}
+
+/* MUSIC PLAYER */
+
+.music-player{
+position:fixed;
+bottom:20px;
+right:20px;
+}
+
+.vinyl{
+width:70px;
+height:70px;
+border-radius:50%;
+background:black;
+border:6px solid #444;
+animation:spin 5s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0)}
+100%{transform:rotate(360deg)}
+}
+
+/* CONFETTI */
+
+.confetti{
+position:absolute;
+width:10px;
+height:10px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- INTRO -->
+
+<div id="intro" class="page active">
+
+<h1>A Surprise For Sachi 🎁</h1>
+
+</div>
+
+
+<!-- ENVELOPE -->
+
+<div id="envelopePage" class="page">
+
+<div class="envelope-wrap">
+
+<div class="envelope">
+
+<div class="flap" id="flap"></div>
+
+<div class="letter" id="letter">
+
+<h3>Happy Birthday 💌</h3>
+
+<p>Something special is waiting...</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PHOTO PAGE -->
+
+<div id="photoPage" class="page">
+
+<h2>Beautiful Memories 📸</h2>
+
+<div class="gallery">
+
+<img src="images/photo1.jpg">
+<img src="images/photo2.jpg">
+<img src="images/photo3.jpg">
+
+</div>
+
+</div>
+
+
+<!-- SCRATCH PAGE -->
+
+<div id="scratchPage" class="page">
+
+<h2>A Small Surprise 🎁</h2>
+
+<div class="scratch-card">
+
+<img src="images/surprise.jpg">
+
+<canvas id="scratch"></canvas>
+
+</div>
+
+</div>
+
+
+<!-- VIDEO PAGE -->
+
+<div id="videoPage" class="page">
+
+<h2>Special Moments 🎬</h2>
+
+<video controls src="videos/video1.mp4"></video>
+
+<video controls src="videos/video2.mp4"></video>
+
+</div>
+
+
+<!-- FINAL PAGE -->
+
+<div id="finalPage" class="page">
+
+<h1>🎉 Happy Birthday Sachi 🎂</h1>
+
+<p>
+May your life always be filled with happiness,
+love and beautiful memories 💖
+</p>
+
+</div>
+
+
+<!-- MUSIC PLAYER -->
+
+<div class="music-player">
+
+<div class="vinyl"></div>
+
+<audio id="music" loop>
+<source src="music/birthday.mp3">
+</audio>
+
+</div>
+
+
+<script>
+
+
+let pages=[
+"intro",
+"envelopePage",
+"photoPage",
+"scratchPage",
+"videoPage",
+"finalPage"
+]
+
+let current=0
+
+
+function showPage(i){
+
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"))
+
+document.getElementById(pages[i]).classList.add("active")
+
+}
+
+
+function nextPage(){
+
+current++
+
+if(current>=pages.length) return
+
+showPage(current)
+
+runAnimation(pages[current])
+
+}
+
+
+function runAnimation(page){
+
+switch(page){
+
+case "envelopePage":
+
+gsap.to("#flap",{rotateX:-180,duration:1})
+
+gsap.to("#letter",{opacity:1,y:-120,duration:1,delay:.4})
+
+setTimeout(nextPage,3500)
+
+break
+
+
+case "photoPage":
+
+gsap.from(".gallery img",{scale:.6,opacity:0,stagger:.3,duration:1})
+
+setTimeout(nextPage,4000)
+
+break
+
+
+case "scratchPage":
+
+autoScratch()
+
+setTimeout(nextPage,3500)
+
+break
+
+
+case "videoPage":
+
+setTimeout(nextPage,8000)
+
+break
+
+
+case "finalPage":
+
+celebrate()
+
+break
+
+}
+
+}
+
+
+setTimeout(nextPage,2500)
+
+
+function autoScratch(){
+
+const canvas=document.getElementById("scratch")
+
+gsap.to(canvas,{opacity:0,duration:1.5,delay:1})
+
+}
+
+
+/* HEART RAIN */
+
+setInterval(()=>{
+
+const h=document.createElement("div")
+
+h.className="heart"
+
+h.innerHTML="💖"
+
+h.style.left=Math.random()*100+"vw"
+
+document.body.appendChild(h)
+
+gsap.to(h,{y:window.innerHeight,duration:6,onComplete:()=>h.remove()})
+
+},400)
+
+
+/* PARTICLES */
+
+setInterval(()=>{
+
+const p=document.createElement("div")
+
+p.className="particle"
+
+p.style.left=Math.random()*100+"vw"
+p.style.top="100vh"
+
+document.body.appendChild(p)
+
+gsap.to(p,{y:-window.innerHeight,duration:8,opacity:0,onComplete:()=>p.remove()})
+
+},500)
+
+
+/* MUSIC */
+
+document.body.addEventListener("click",()=>{
+
+document.getElementById("music").play()
+
+},{once:true})
+
+
+function celebrate(){
+
+confetti()
+
+}
+
+
+function confetti(){
+
+for(let i=0;i<120;i++){
+
+const c=document.createElement("div")
+
+c.className="confetti"
+
+c.style.left=Math.random()*100+"vw"
+
+c.style.background="hsl("+Math.random()*360+",70%,60%)"
+
+document.body.appendChild(c)
+
+gsap.to(c,{y:window.innerHeight,rotation:720,duration:4,onComplete:()=>c.remove()})
+
+}
+
+}
+
+</script>
+
+
+</body>
+</html>
