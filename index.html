@@ -24,7 +24,6 @@
             min-height: 100vh;
         }
 
-        /* BACKGROUND GLOW EFFECT */
         body::before {
             content: "";
             position: fixed;
@@ -40,7 +39,6 @@
             100% { opacity: 0.5; }
         }
 
-        /* PAGE SYSTEM */
         .page {
             position: fixed;
             inset: 0;
@@ -53,6 +51,7 @@
             pointer-events: none;
             transition: opacity 0.8s ease;
             z-index: 10;
+            overflow-y: auto;
         }
 
         .page.active {
@@ -60,7 +59,6 @@
             pointer-events: auto;
         }
 
-        /* GENERAL STYLES */
         h1 {
             font-family: 'Playfair Display', serif;
             font-size: 64px;
@@ -87,7 +85,6 @@
             animation-delay: 0.3s;
         }
 
-        /* ==================== STAGE 1: INTRO ==================== */
         #intro {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
@@ -127,7 +124,6 @@
             50% { transform: translateY(-20px); }
         }
 
-        /* ==================== STAGE 2: ENVELOPE ==================== */
         #envelopePage {
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
         }
@@ -209,7 +205,6 @@
             50% { transform: scale(1.1); }
         }
 
-        /* ==================== STAGE 3: PHOTO MEMORIES ==================== */
         #photoPage {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
@@ -219,9 +214,10 @@
             gap: 25px;
             justify-content: center;
             flex-wrap: wrap;
-            max-width: 1000px;
+            max-width: 1200px;
             animation: slideInUp 0.8s ease forwards;
             animation-delay: 0.2s;
+            padding: 40px 20px;
         }
 
         .gallery-item {
@@ -235,24 +231,36 @@
             animation: scaleIn 0.6s ease forwards;
         }
 
-        .gallery-item:nth-child(1) { animation-delay: 0.2s; }
-        .gallery-item:nth-child(2) { animation-delay: 0.4s; }
-        .gallery-item:nth-child(3) { animation-delay: 0.6s; }
-
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .gallery-placeholder {
+        .image-placeholder {
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(255, 107, 157, 0.5), rgba(185, 142, 220, 0.5));
+            height: 120%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 60px;
+            flex-direction: column;
+            gap: 10px;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            padding: 10px;
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.6), rgba(185, 142, 220, 0.6));
+        }
+
+        .image-placeholder-text {
+            font-size: 40px;
+            margin-bottom: 5px;
+        }
+
+        .image-placeholder-info {
+            font-size: 12px;
+            opacity: 0.9;
         }
 
         @keyframes scaleIn {
@@ -266,7 +274,6 @@
             }
         }
 
-        /* ==================== STAGE 4: SCRATCH REVEAL ==================== */
         #scratchPage {
             background: linear-gradient(135deg, #ffa500 0%, #ff6b6b 100%);
         }
@@ -337,9 +344,9 @@
             animation-delay: 0.4s;
         }
 
-        /* ==================== STAGE 5: VIDEO MEMORIES ==================== */
         #videoPage {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 40px 20px;
         }
 
         .video-container {
@@ -349,6 +356,7 @@
             flex-wrap: wrap;
             animation: slideInUp 0.8s ease forwards;
             animation-delay: 0.2s;
+            max-width: 1200px;
         }
 
         video {
@@ -361,10 +369,23 @@
             animation: scaleIn 0.6s ease forwards;
         }
 
-        video:nth-of-type(1) { animation-delay: 0.2s; }
-        video:nth-of-type(2) { animation-delay: 0.4s; }
+        .video-status {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            margin-top: 20px;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.5s;
+        }
 
-        /* ==================== STAGE 6: FINAL CELEBRATION ==================== */
+        .video-status.waiting {
+            color: #ffa502;
+            font-weight: 600;
+        }
+
+        .video-status.done {
+            color: #2ecc71;
+        }
+
         #finalPage {
             background: linear-gradient(135deg, #764ba2 0%, #667eea 50%, #f093fb 100%);
         }
@@ -409,7 +430,6 @@
             line-height: 1.8;
         }
 
-        /* ==================== HEART RAIN ==================== */
         .heart {
             position: fixed;
             font-size: 24px;
@@ -429,7 +449,6 @@
             }
         }
 
-        /* ==================== PARTICLES ==================== */
         .particle {
             position: fixed;
             width: 8px;
@@ -453,7 +472,6 @@
             }
         }
 
-        /* ==================== CONFETTI ==================== */
         .confetti {
             position: fixed;
             width: 12px;
@@ -474,7 +492,6 @@
             }
         }
 
-        /* ==================== VINYL RECORD PLAYER ==================== */
         .music-player {
             position: fixed;
             bottom: 20px;
@@ -495,7 +512,6 @@
 
         .vinyl.paused {
             animation: none;
-            animation-play-state: paused;
         }
 
         .vinyl::after {
@@ -513,21 +529,6 @@
         @keyframes vinyl-spin {
             0% { transform: rotate(0); }
             100% { transform: rotate(360deg); }
-        }
-
-        .vinyl-label {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: #ff6b9d;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
         }
 
         .music-tooltip {
@@ -549,7 +550,6 @@
             opacity: 1;
         }
 
-        /* ==================== PROGRESS BAR ==================== */
         .progress-bar {
             position: fixed;
             top: 0;
@@ -561,7 +561,6 @@
             transition: width 0.6s ease;
         }
 
-        /* ==================== VISITOR TRACKER ==================== */
         .visitor-tracker {
             position: fixed;
             top: 20px;
@@ -669,7 +668,6 @@
             display: block;
         }
 
-        /* ==================== ANIMATIONS ==================== */
         @keyframes slideInDown {
             from {
                 opacity: 0;
@@ -712,7 +710,6 @@
             }
         }
 
-        /* ==================== RESPONSIVE ==================== */
         @media (max-width: 768px) {
             h1 { font-size: 44px; }
             h2 { font-size: 36px; }
@@ -794,16 +791,8 @@
     <!-- ==================== STAGE 3: PHOTO MEMORIES ==================== -->
     <div id="photoPage" class="page">
         <h2>📸 Photo Memories</h2>
-        <div class="gallery">
-            <div class="gallery-item">
-                <div class="gallery-placeholder">📷</div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-placeholder">✨</div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-placeholder">💝</div>
-            </div>
+        <div class="gallery" id="photoGallery">
+            <!-- Photos will be added here by JavaScript -->
         </div>
     </div>
 
@@ -827,15 +816,11 @@
     <!-- ==================== STAGE 5: VIDEO MEMORIES ==================== -->
     <div id="videoPage" class="page">
         <h2>🎬 Video Memories</h2>
-        <div class="video-container">
-            <video controls>
-                <source src="videos/video1.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <video controls>
-                <source src="videos/video2.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+        <div class="video-container" id="videoContainer">
+            <!-- Videos will be added here by JavaScript -->
+        </div>
+        <div class="video-status waiting" id="videoStatus">
+            ⏳ Waiting for videos to finish...
         </div>
     </div>
 
@@ -847,8 +832,11 @@
             <div class="final-message">
                 <p>Thank you for being the amazing person you are!</p>
                 <div class="final-poem">
-                   Hey sachi happy birthday <br>
-                   Kashi ahes 
+                   Hey Sachi, Happy Birthday! 🎈<br><br>
+                   Wishing you a day filled with joy,<br>
+                   Laughter, and all things you love! 💖<br><br>
+                   You're awesome! 🌟
+                   -From Durgesh😊
                 </div>
             </div>
         </div>
@@ -864,20 +852,47 @@
 
     <script>
         // ============================
-        // CONFIGURATION
+        // 📌 CONFIGURATION - EDIT HERE!
         // ============================
         const CONFIG = {
-            name: "Dhanashree",
+            name: "Sachi",
             autoPlay: true,
             stageTimings: {
                 intro: 4000,
                 envelope: 4500,
                 photos: 5000,
                 scratch: 4500,
-                video: 6000,
-                final: 0
-            }
+                video: 0
+            },
+            
+            // 📸 ADD YOUR PHOTO URLS HERE
+            photos: [
+                "./images/image1.jpg",
+                "./images/image2.jpg",
+                "./images/image3.jpg",
+                "./images/image4.jpg",
+                "./images/image5.jpg",
+                "./images/image6.jpg",
+                "./images/image7.jpg",
+                "./images/image8.jpg",
+                // Add more photo URLs as needed
+                // Example: "https://drive.google.com/uc?export=view&id=YOUR_FILE_ID"
+                // Example: "https://i.imgur.com/xxxxx.jpg"
+            ],
+            
+            // 🎬 ADD YOUR VIDEO URLS HERE
+            videos: [
+                "./videos/video1.mp4",
+                "./videos/video2.mp4",
+                "./videos/video3.mp4",
+                // "./videos/video4.mp4",
+                // Add more video URLs as needed
+                // Example: "https://drive.google.com/uc?export=download&id=YOUR_FILE_ID"
+            ]
         };
+        // ============================
+        // END CONFIGURATION
+        // ============================
 
         // ============================
         // VISITOR TRACKING SYSTEM
@@ -885,14 +900,12 @@
         class VisitorTracker {
             constructor() {
                 this.TRACKING_KEY = 'birthday_tracking_' + new Date().toISOString().split('T')[0];
-                this.WEBHOOK_KEY = 'bday_webhook_' + Date.now();
                 this.visitors = this.getStoredVisitors();
                 this.isAdmin = this.checkAdminMode();
                 this.initializeTracking();
             }
 
             initializeTracking() {
-                // Record this visit
                 const visitor = {
                     timestamp: new Date().toLocaleString(),
                     device: this.getDeviceInfo(),
@@ -901,19 +914,14 @@
                     timeSpent: 0
                 };
 
-                // Send to analytics (optional webhook)
                 this.sendToAnalytics(visitor);
-
-                // Store locally
                 this.visitors.push(visitor);
                 this.saveVisitors();
 
-                // Update UI
                 if (this.isAdmin) {
                     this.showAdminPanel();
                 }
 
-                // Track time spent
                 window.addEventListener('beforeunload', () => {
                     visitor.timeSpent = Math.round((Date.now() - new Date(visitor.timestamp).getTime()) / 1000);
                     this.saveVisitors();
@@ -921,7 +929,6 @@
             }
 
             checkAdminMode() {
-                // Check if 'admin=true' in URL parameter
                 const params = new URLSearchParams(window.location.search);
                 return params.get('admin') === 'true';
             }
@@ -956,8 +963,6 @@
             }
 
             sendToAnalytics(visitor) {
-                // You can replace this with your own webhook/analytics service
-                // Example: Discord webhook, Google Forms, or custom backend
                 console.log('👤 New visitor:', visitor);
             }
 
@@ -971,7 +976,6 @@
                     this.updateVisitorsList();
                 });
 
-                // Copy link button
                 document.getElementById('copyLinkBtn').addEventListener('click', () => {
                     const currentUrl = window.location.href;
                     const trackingUrl = currentUrl.split('?')[0] + '?admin=true';
@@ -997,38 +1001,88 @@
                     </div>
                 `).join('');
 
-                // Auto-refresh
                 setTimeout(() => this.updateVisitorsList(), 2000);
-            }
-
-            getTrackingLink() {
-                const base = window.location.href.split('?')[0];
-                return base + '?admin=true';
             }
         }
 
-        // Initialize tracker
         const tracker = new VisitorTracker();
 
         // ============================
         // STATE
         // ============================
-        let pages = ["intro", "envelopePage", "photoPage", "scratchPage", "videoPage", "finalPage"];
+        let pages = ["intro", "envelopePage", "photoPage", "videoPage", "finalPage"];
         let currentPage = 0;
-        let isAutoPlaying = true;
-        let scratchRevealed = false;
         let musicPlaying = false;
 
         // ============================
         // INITIALIZE
         // ============================
         document.addEventListener('DOMContentLoaded', () => {
+            // Generate photos
+            generatePhotos();
+            // Generate videos
+            generateVideos();
+            
             initializeMusic();
             initializeHeartRain();
             initializeParticles();
             initializeScratchCard();
             startAutoPlay();
         });
+
+        // ============================
+        // GENERATE PHOTOS FROM CONFIG
+        // ============================
+        function generatePhotos() {
+            const gallery = document.getElementById('photoGallery');
+            gallery.innerHTML = '';
+
+            CONFIG.photos.forEach((photoUrl, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.style.animationDelay = (index * 0.2) + 's';
+                
+                const img = document.createElement('img');
+                img.src = photoUrl;
+                img.alt = `Photo ${index + 1}`;
+                img.onerror = () => {
+                    // If image fails to load, show placeholder
+                    item.innerHTML = `
+                        <div class="image-placeholder">
+                            <div class="image-placeholder-text">📷</div>
+                            <div class="image-placeholder-info">Photo ${index + 1}</div>
+                        </div>
+                    `;
+                };
+                
+                item.appendChild(img);
+                gallery.appendChild(item);
+            });
+        }
+
+        // ============================
+        // GENERATE VIDEOS FROM CONFIG
+        // ============================
+        function generateVideos() {
+            const container = document.getElementById('videoContainer');
+            container.innerHTML = '';
+
+            CONFIG.videos.forEach((videoUrl, index) => {
+                const video = document.createElement('video');
+                video.id = `video${index}`;
+                video.controls = true;
+                video.style.animationDelay = (index * 0.2) + 's';
+                
+                const source = document.createElement('source');
+                source.src = videoUrl;
+                source.type = 'video/mp4';
+                
+                video.appendChild(source);
+                video.appendChild(document.createTextNode('Your browser does not support the video tag.'));
+                
+                container.appendChild(video);
+            });
+        }
 
         // ============================
         // PAGE NAVIGATION
@@ -1076,13 +1130,67 @@
                     break;
 
                 case 'videoPage':
-                    setTimeout(nextPage, CONFIG.stageTimings.video);
+                    waitForVideosToFinish();
                     break;
 
                 case 'finalPage':
                     celebrateFinale();
                     break;
             }
+        }
+
+        // ============================
+        // VIDEO COMPLETION DETECTION
+        // ============================
+        function waitForVideosToFinish() {
+            const videos = document.querySelectorAll('#videoPage video');
+            const statusEl = document.getElementById('videoStatus');
+            
+            if (videos.length === 0) {
+                statusEl.textContent = '⚠️ No videos found';
+                setTimeout(nextPage, 2000);
+                return;
+            }
+
+            let videosEnded = 0;
+            let videosStarted = 0;
+            const totalVideos = videos.length;
+
+            videos.forEach((video, index) => {
+                video.play().catch(() => {
+                    console.log(`Video ${index + 1} autoplay failed - user must click play`);
+                    statusEl.textContent = '🎬 Click play to start videos';
+                });
+
+                video.addEventListener('play', () => {
+                    videosStarted++;
+                    if (videosStarted === 1) {
+                        statusEl.textContent = '▶️ Videos playing...';
+                    }
+                });
+
+                video.addEventListener('ended', () => {
+                    videosEnded++;
+                    console.log(`Video ${index + 1} finished (${videosEnded}/${totalVideos})`);
+                    
+                    if (videosEnded === totalVideos) {
+                        statusEl.classList.remove('waiting');
+                        statusEl.classList.add('done');
+                        statusEl.textContent = '✅ All videos finished! Moving to final celebration...';
+                        setTimeout(nextPage, 1500);
+                    } else {
+                        statusEl.textContent = `▶️ ${videosEnded}/${totalVideos} videos finished`;
+                    }
+                }, { once: true });
+            });
+
+            setTimeout(() => {
+                if (videosStarted === 0) {
+                    console.log('⚠️ No videos started playing, auto-advancing');
+                    statusEl.textContent = '⏭️ Videos not loaded, skipping...';
+                    setTimeout(nextPage, 1000);
+                }
+            }, 15000);
         }
 
         function animateEnvelope() {
@@ -1169,7 +1277,6 @@
                     clearInterval(scratchInterval);
                     canvas.style.transition = 'opacity 0.6s ease';
                     canvas.style.opacity = '0';
-                    scratchRevealed = true;
                     spawnConfetti();
                     return;
                 }
