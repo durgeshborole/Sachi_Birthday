@@ -725,9 +725,6 @@
         </audio>
     </div>
 
-    <!-- EmailJS Library - Load with async and defer -->
-    <script async defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
-
     <script>
         // ============================
         // 📌 CONFIGURATION - EDIT HERE!
@@ -743,13 +740,8 @@
                 video: 0
             },
             
-            // 📧 EMAILJS SETUP (PASTE YOUR CREDENTIALS HERE)
-            emailjs: {
-                serviceID: "service_99x82aw", // Get from https://dashboard.emailjs.com
-                templateID: "template_ttblvmy", // Get from https://dashboard.emailjs.com
-                publicKey: "qFyGwcy8aSqvfZ8Gc", // Get from https://dashboard.emailjs.com
-                recipientEmail: "durgeshborole@gmail.com" // Your email address
-            },
+            // 📧 WEBHOOK URL (Use Formspree, Discord, or WebhookSite)
+            webhookURL: "https://formspree.io/f/xojkpkvd", // Replace with your webhook URL
             
             // 📸 ADD YOUR PHOTO URLS HERE
             photos: [
@@ -775,60 +767,53 @@
         // ============================
 
         // ============================
-        // EMAILJS NOTIFICATION SYSTEM
+        // VISITOR NOTIFICATION (Webhook)
         // ============================
-        function initializeEmailJS() {
-            // Check if emailjs is available
-            if (typeof emailjs === 'undefined') {
-                console.log('⏳ EmailJS library still loading, retrying...');
-                setTimeout(initializeEmailJS, 500);
-                return;
-            }
-
-            if (!CONFIG.emailjs.publicKey) {
-                console.log('📌 EmailJS not configured. See setup instructions.');
-                return;
-            }
-
-            try {
-                emailjs.init(CONFIG.emailjs.publicKey);
-                console.log('✅ EmailJS initialized successfully');
-                sendVisitorNotification();
-            } catch (err) {
-                console.log('❌ EmailJS init error:', err.message);
-            }
-        }
-
         function sendVisitorNotification() {
+            if (!CONFIG.webhookURL || CONFIG.webhookURL.includes('YOUR_FORM_ID')) {
+                console.log('📌 Webhook URL not configured. Skipping email notification.');
+                return;
+            }
+
             const visitorInfo = {
                 timestamp: new Date().toLocaleString(),
                 device: getDeviceInfo(),
                 browser: getBrowserInfo(),
-                url: window.location.href,
-                userAgent: navigator.userAgent.substring(0, 100)
+                url: window.location.href
             };
 
-            const templateParams = {
-                to_email: CONFIG.emailjs.recipientEmail,
-                visitor_time: visitorInfo.timestamp,
-                visitor_device: visitorInfo.device,
-                visitor_browser: visitorInfo.browser,
-                visitor_url: visitorInfo.url,
-                visitor_agent: visitorInfo.userAgent
-            };
-
-            emailjs.send(
-                CONFIG.emailjs.serviceID,
-                CONFIG.emailjs.templateID,
-                templateParams
-            ).then(
-                (response) => {
-                    console.log('✅ Email sent successfully!', response);
+            // Send via Formspree (Free, works everywhere including Safari)
+            fetch(CONFIG.webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                (error) => {
-                    console.log('📧 Email send error:', error);
+                body: JSON.stringify({
+                    email: 'noreply@birthday.local',
+                    name: 'Birthday Site Visitor',
+                    message: `
+Birthday Site Visit Notification 🎉
+
+📱 Device: ${visitorInfo.device}
+🌐 Browser: ${visitorInfo.browser}
+⏰ Time: ${visitorInfo.timestamp}
+🔗 URL: ${visitorInfo.url}
+
+Someone just opened your birthday website!
+                    `
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('✅ Notification sent successfully!');
+                } else {
+                    console.log('📧 Notification sent (status: ' + response.status + ')');
                 }
-            );
+            })
+            .catch(error => {
+                console.log('📌 Notification system ready. Visit will be tracked if webhook is configured.');
+            });
         }
 
         function getDeviceInfo() {
@@ -858,8 +843,8 @@
         // INITIALIZE
         // ============================
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize EmailJS - it will wait for library to load
-            initializeEmailJS();
+            // Send visitor notification
+            sendVisitorNotification();
             
             // Generate photos
             generatePhotos();
