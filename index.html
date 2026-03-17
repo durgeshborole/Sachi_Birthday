@@ -8,10 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;600;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- EmailJS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;600;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet"
 
     <style>
         * {
@@ -728,6 +725,9 @@
         </audio>
     </div>
 
+    <!-- EmailJS Library - Must load before script -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
+
     <script>
         // ============================
         // 📌 CONFIGURATION - EDIT HERE!
@@ -851,8 +851,10 @@
         // INITIALIZE
         // ============================
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize EmailJS
-            initializeEmailJS();
+            // Initialize EmailJS with a small delay to ensure library is loaded
+            setTimeout(() => {
+                initializeEmailJS();
+            }, 100);
             
             // Generate photos
             generatePhotos();
