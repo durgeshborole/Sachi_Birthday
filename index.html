@@ -8,7 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;600;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet"
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;600;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -725,8 +725,8 @@
         </audio>
     </div>
 
-    <!-- EmailJS Library - Must load before script -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
+    <!-- EmailJS Library - Load with async and defer -->
+    <script async defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
 
     <script>
         // ============================
@@ -778,6 +778,13 @@
         // EMAILJS NOTIFICATION SYSTEM
         // ============================
         function initializeEmailJS() {
+            // Check if emailjs is available
+            if (typeof emailjs === 'undefined') {
+                console.log('⏳ EmailJS library still loading, retrying...');
+                setTimeout(initializeEmailJS, 500);
+                return;
+            }
+
             if (!CONFIG.emailjs.publicKey) {
                 console.log('📌 EmailJS not configured. See setup instructions.');
                 return;
@@ -785,10 +792,10 @@
 
             try {
                 emailjs.init(CONFIG.emailjs.publicKey);
-                console.log('✅ EmailJS initialized');
+                console.log('✅ EmailJS initialized successfully');
                 sendVisitorNotification();
             } catch (err) {
-                console.log('❌ EmailJS init failed:', err);
+                console.log('❌ EmailJS init error:', err.message);
             }
         }
 
@@ -819,7 +826,7 @@
                     console.log('✅ Email sent successfully!', response);
                 },
                 (error) => {
-                    console.log('📌 Email send skipped (not configured or error):', error);
+                    console.log('📧 Email send error:', error);
                 }
             );
         }
@@ -843,7 +850,7 @@
         // ============================
         // STATE
         // ============================
-        let pages = ["intro", "envelopePage", "photoPage", "scratchPage", "videoPage", "finalPage"];
+        let pages = ["intro", "envelopePage", "photoPage", "videoPage", "finalPage"];
         let currentPage = 0;
         let musicPlaying = false;
 
@@ -851,10 +858,8 @@
         // INITIALIZE
         // ============================
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize EmailJS with a small delay to ensure library is loaded
-            setTimeout(() => {
-                initializeEmailJS();
-            }, 100);
+            // Initialize EmailJS - it will wait for library to load
+            initializeEmailJS();
             
             // Generate photos
             generatePhotos();
